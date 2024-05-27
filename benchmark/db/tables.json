@@ -1,0 +1,27 @@
+[
+    {
+        "column_names_original": [
+            [-1, "*"],
+            [0, "Mùa giải"],
+            [0, "Division"],
+            [0, "Thắng"],
+            [0, "Thua"],
+            [0, "Hòa"],
+            [0, "Vị trí cuối cùng"],
+            [0, "Ghi chú"]
+        ],
+        "column_types": [
+            "number",
+            "text",
+            "number",
+            "number",
+            "number",
+            "text",
+            "text"
+        ],
+        "db_id": "example",
+        "foreign_keys": [],
+        "primary_keys": [],
+        "table_names_original": ["table_42529"]
+    }
+]

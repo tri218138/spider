@@ -547,8 +547,17 @@ def load_data(fpath):
     return data
 
 
+
 def get_sql(schema, query):
     toks = tokenize(query)
+
+    def detect_col(tok, columns):
+        if tok[0] == '"' and tok[-1] == '"' and tok[1:-1].lower() in columns:
+            return tok[1:-1].lower()
+        return tok
+
+    columns = [col for sublist in schema.schema.values() for col in sublist]
+    toks = [detect_col(tok, columns) for tok in toks]
     tables_with_alias = get_tables_with_alias(schema.schema, toks)
     _, sql = parse_sql(toks, 0, tables_with_alias, schema)
 
