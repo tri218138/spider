@@ -138,7 +138,7 @@ def get_schema_from_json(fpath):
     return schema
 
 
-def tokenize(string, schema):
+def tokenize(string, names=[]):
     string = str(string)
     string = string.replace(
         "'", '"'
@@ -151,9 +151,6 @@ def tokenize(string, schema):
             return tok[1:-1].lower()
         return tok
 
-    tables = [col for col in schema.schema.keys()]
-    columns = [col for sublist in schema.schema.values() for col in sublist]
-
     # keep string value as token
     vals = {}
     for i in range(len(quote_idxs) - 1, -1, -2):
@@ -162,17 +159,20 @@ def tokenize(string, schema):
         val = string[qidx1 : qidx2 + 1]
         key = "__val_{}_{}__".format(qidx1, qidx2)
         string = string[:qidx1] + key + string[qidx2 + 1 :]
-        vals[key] = detect_col(val, columns + tables)
+        vals[key] = detect_col(val, names)
     toks = [word.lower() for word in word_tokenize(string)]
     # replace with string value token
+    aliases = scan_alias(toks)
     for i in range(len(toks)):
         if toks[i] in vals:
             toks[i] = vals[toks[i]]
-        else:
-            if toks[i].count(".") == 1:
-                alias, _val = toks[i].split(".")
-                if _val in vals:
-                    toks[i] = alias + "." + vals[_val]
+        elif toks[i].count(".") == 1:
+            prefix, _val = toks[i].split(".")
+            if _val in vals:
+                if prefix in aliases:
+                    toks[i] = prefix + "." + vals[_val]
+                else:
+                    toks[i] = vals[prefix] + "." + vals[_val]
 
     # find if there exists !=, >=, <=
     eq_idxs = [idx for idx, tok in enumerate(toks) if tok == "="]
@@ -636,7 +636,9 @@ def load_data(fpath):
 
 
 def get_sql(schema, query):
-    toks = tokenize(query, schema)
+    tables = [col for col in schema.schema.keys()]
+    columns = [col for sublist in schema.schema.values() for col in sublist]
+    toks = tokenize(query, names=tables + columns)
     tables_with_alias = get_tables_with_alias(schema.schema, toks)
     _, sql = parse_sql(toks, 0, tables_with_alias, schema)
 

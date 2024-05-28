@@ -26,7 +26,14 @@ import sqlite3
 import traceback
 import argparse
 
-from process_sql import tokenize, get_schema, get_tables_with_alias, Schema, get_sql
+from process_sql import (
+    tokenize,
+    get_schema,
+    get_tables_with_alias,
+    Schema,
+    get_sql,
+    scan_alias,
+)
 
 # Flag to disable value evaluation
 DISABLE_VALUE = True
@@ -628,12 +635,105 @@ def print_scores(scores, etype):
             )
 
 
+sql_keywords = [
+    "add",
+    "all",
+    "alter",
+    "and",
+    "as",
+    "asc",
+    "avg",
+    "between",
+    "by",
+    "char",
+    "column",
+    "count",
+    "create",
+    "delete",
+    "desc",
+    "distinct",
+    "drop",
+    "exists",
+    "except",
+    "from",
+    "group",
+    "having",
+    "in",
+    "index",
+    "inner",
+    "insert",
+    "intersect",
+    "into",
+    "is",
+    "join",
+    "left",
+    "like",
+    "limit",
+    "max",
+    "min",
+    "not",
+    "null",
+    "on",
+    "or",
+    "order",
+    "outer",
+    "select",
+    "set",
+    "sum",
+    "table",
+    "union",
+    "update",
+    "values",
+    "where",
+]
+
+sql_symbols = ["*", ",", ";", "(", ")", ">", "<", "=", "!", ">=", "<=", "!="]
+
+
+def isfloat(str):
+    try:
+        float(str)
+        return True
+    except:
+        return False
+
+
+def add_double_flashes(sql_str):
+    global sql_keywords, sql_symbols
+
+    toks = tokenize(sql_str)
+    words = []
+    aliases = list(scan_alias(toks).keys())
+    for tok in toks:
+        if tok in sql_keywords + sql_symbols + aliases or isfloat(tok):
+            words.append(tok)
+        elif (
+            tok.count(".") == 1 and " " not in tok and tok[0] != '"' and tok[-1] != '"'
+        ):  # case < "Computer Info. Systems"
+            alias, name = tok.split(".")
+            if alias in aliases:
+                words.append(alias + "." + '"' + name + '"')
+            else:  # case "vai trò.mô tả về vai trò"
+                words.append('"' + alias + '"' + "." + '"' + name + '"')
+        else:  # case < "2", = "Hello World"
+            words.append('"' + tok + '"')
+
+    sql_str = " ".join(words)
+    sql_str = sql_str.replace('" "', " ")
+    sql_str = sql_str.replace('""', '"')  # = "Hello World"
+
+    return sql_str
+
+
 def evaluate(gold, predict, db_dir, etype, kmaps):
     with open(gold, encoding="utf-8") as f:
         glist = [l.strip().split("\t") for l in f.readlines() if len(l.strip()) > 0]
 
     with open(predict, encoding="utf-8") as f:
         plist = [l.strip().split("\t") for l in f.readlines() if len(l.strip()) > 0]
+    glist = [(add_double_flashes(sql_str), db_id) for sql_str, db_id in glist]
+    plist = [[add_double_flashes(sql_str[0])] for sql_str in plist]
+
     # plist = [("select max(Share),min(Share) from performance where Type != 'terminal'", "orchestra")]
     # glist = [("SELECT max(SHARE) ,  min(SHARE) FROM performance WHERE TYPE != 'Live final'", "orchestra")]
     evaluator = Evaluator()
@@ -673,6 +773,7 @@ def evaluate(gold, predict, db_dir, etype, kmaps):
         db_name = db
         db = os.path.join(db_dir, db, db + ".sqlite")
         schema = Schema(get_schema(db))
+        print("g_str", g_str)
         g_sql = get_sql(schema, g_str)
         hardness = evaluator.eval_hardness(g_sql)
         scores[hardness]["count"] += 1
