@@ -699,6 +699,7 @@ def isfloat(str):
 
 
 def add_double_flashes(sql_str):
+    sql_str = sql_str.replace('"', "").replace("'", "")
     global sql_keywords, sql_symbols
 
     toks = tokenize(sql_str)
@@ -773,7 +774,6 @@ def evaluate(gold, predict, db_dir, etype, kmaps):
         db_name = db
         db = os.path.join(db_dir, db, db + ".sqlite")
         schema = Schema(get_schema(db))
-        print("g_str", g_str)
         g_sql = get_sql(schema, g_str)
         hardness = evaluator.eval_hardness(g_sql)
         scores[hardness]["count"] += 1
