@@ -1,0 +1,674 @@
+eval_err_num:744
+hard pred: select "t1."id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" as t2 join "sinh_viên" as t1 on "t2."id sinh_viên" = "t1."id sinh_viên" group by "t1."id sinh_viên" having count ( * ) > 0 order by count ( * ) desc limit 1
+hard gold: select "id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" group by "id sinh_viên" order by count ( * ) limit 1
+
+eval_err_num:745
+hard pred: select "t1."id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" as t1 join "sinh_viên" as t2 on "t1."id sinh_viên" = "t2."id sinh_viên" group by "t1."id sinh_viên" having count ( * ) < ( select count ( * ) from "lượt đăng_ký khoá học của sinh_viên" group by "id sinh_viên" order by count ( * ) limit 1 )
+hard gold: select "id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" group by "id sinh_viên" order by count ( * ) limit 1
+
+eval_err_num:746
+medium pred: select "tên" , "họ" from "ứng_cử_viên"
+medium gold: select t2."tên" , t2."họ" from "ứng_cử_viên" as t1 join "cá_nhân" as t2 on t1."id ứng_cử_viên" = t2."id cá_nhân"
+
+medium pred: select "chi_tiết ứng_cử_viên" from "ứng_cử_viên"
+medium gold: select t2."tên" , t2."họ" from "ứng_cử_viên" as t1 join "cá_nhân" as t2 on t1."id ứng_cử_viên" = t2."id cá_nhân"
+
+hard pred: select "id cá_nhân" from "cá_nhân" except select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên"
+hard gold: select "id sinh_viên" from "sinh_viên" where "id sinh_viên" not in ( select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên" 
+)
+
+hard pred: select "id cá_nhân" from "cá_nhân" except select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên"
+hard gold: select "id sinh_viên" from "sinh_viên" where "id sinh_viên" not in ( select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên" 
+)
+
+eval_err_num:747
+easy pred: select distinct "t1."id cá_nhân" from "cá_nhân" as t1 join "lần tham_dự khoá học của sinh_viên" as t2 on "t1."id cá_nhân" = "t2."id cá_nhân" group by "t1."id cá_nhân" having count ( * ) > 0
+easy gold: select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên"
+
+eval_err_num:748
+easy pred: select distinct "t1."id sinh_viên" from "lần tham_dự khoá học của sinh_viên" as t2 join "sinh_viên" as t1 on "t2."id sinh_viên" = "t1."id cá_nhân" group by "t1."id cá_nhân" having count ( * ) >= 1
+easy gold: select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên"
+
+eval_err_num:749
+medium pred: select "t1."id sinh_viên" , "t2."tên khoá học" from "lượt đăng_ký khoá học của sinh_viên" as t1 join "khoá học" as t2 on "t1."id khoá học" = "t2."id khoá học"
+medium gold: select t1."id sinh_viên" , t2."tên khoá học" from "lượt đăng_ký khoá học của sinh_viên" as t1 join "khoá học" as t2 on t1."id khoá 
+học" = t2."id khoá học"
+
+eval_err_num:750
+hard pred: select t1."chi_tiết sinh_viên" from "sinh_viên" as t1 join "lượt đăng_ký khoá học của sinh_viên" as t2 on t1."id sinh_viên" = t2."id 
+sinh_viên" order by t2."ngày đăng_ký" desc limit 1
+hard gold: select t2."chi_tiết sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" as t1 join "sinh_viên" as t2 on t1."id sinh_viên" = t2."id 
+sinh_viên" order by t1."ngày đăng_kí" desc limit 1
+
+eval_err_num:751
+medium pred: select count ( * ) from "lần tham_dự khoá học của sinh_viên" as t1 join "khoá học" as t2 on "t1."id khoá học" = "t2."id khoá học" where "t2."tên khoá học" = "English"
+medium gold: select count ( * ) from "khoá học" as t1 join "lần tham_dự khoá học của sinh_viên" as t2 on t1."id khoá học" = t2."id khoá học" where t1."tên khoá học" = "English"
+
+eval_err_num:752
+medium pred: select count ( * ) from "lượt đăng_ký khoá học của sinh_viên" as t1 join "khoá học" as t2 on "t1."id khoá học" = "t2."id khoá học" 
+where "t2."tên khoá học" = "English"
+medium gold: select count ( * ) from "khoá học" as t1 join "lần tham_dự khoá học của sinh_viên" as t2 on t1."id khoá học" = t2."id khoá học" where t1."tên khoá học" = "English"
+
+eval_err_num:753
+medium pred: select count ( * ) from "lần tham_dự khoá học của sinh_viên" as t1 join "cá_nhân" as t2 on "t1."id cá_nhân" = "t2."id cá_nhân" where "t2."id cá_nhân" = 171
+medium gold: select count ( * ) from "khoá học" as t1 join "lần tham_dự khoá học của sinh_viên" as t2 on t1."id khoá học" = t2."id khoá học" where t2."id sinh_viên" = 171
+
+eval_err_num:754
+medium pred: select count ( * ) from "lần tham_dự khoá học của sinh_viên" as t1 join "sinh_viên" as t2 on "t1."id sinh_viên" = "t2."id sinh_viên" where "t2."id sinh_viên" = 171
+medium gold: select count ( * ) from "khoá học" as t1 join "lần tham_dự khoá học của sinh_viên" as t2 on t1."id khoá học" = t2."id khoá học" where t2."id sinh_viên" = 171
+
+eval_err_num:755
+medium pred: select "t2."id ứng_cử_viên" from "cá_nhân" as t1 join "ứng_cử_viên" as t2 on "t1."id cá_nhân" = "t2."id ứng_cử_viên" where "t1."đị
+a chỉ email" = "stanley.monahan@example.org"
+medium gold: select t2."id ứng_cử_viên" from "cá_nhân" as t1 join "ứng_cử_viên" as t2 on t1."id cá_nhân" = t2."id ứng_cử_viên" where t1."địa ch
+ỉ email" = "stanley.monahan@example.org"
+
+eval_err_num:756
+medium pred: select "t2."id ứng_cử_viên" from "cá_nhân" as t1 join "ứng_cử_viên" as t2 on "t1."id cá_nhân" = "t2."id ứng_cử_viên" where "t1."đị
+a chỉ email" = "stanley.monahan@example.org"
+medium gold: select t2."id ứng_cử_viên" from "cá_nhân" as t1 join "ứng_cử_viên" as t2 on t1."id cá_nhân" = t2."id ứng_cử_viên" where t1."địa ch
+ỉ email" = "stanley.monahan@example.org"
+
+eval_err_num:757
+medium pred: select "t1."id ứng_cử_viên" from "lần tham_dự khoá học của sinh_viên" as t2 join "ứng_cử_viên" as t1 on "t2."id ứng_cử_viên" = "t1."id ứng_cử_viên" order by "t2."ngày tham_dự" desc limit 1
+medium gold: select "id ứng_cử_viên" from "đánh_giá ứng_cử_viên" order by "ngày đánh_giá" desc limit 1
+
+eval_err_num:758
+medium pred: select "t1."id ứng_cử_viên" from "lần tham_dự khoá học của sinh_viên" as t2 join "ứng_cử_viên" as t1 on "t2."id ứng_cử_viên" = "t1."id ứng_cử_viên" order by "t2."ngày đánh_giá" desc limit 1
+medium gold: select "id ứng_cử_viên" from "đánh_giá ứng_cử_viên" order by "ngày đánh_giá" desc limit 1
+
+eval_err_num:759
+extra pred: select "t1."chi_tiết sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" as t2 join "sinh_viên" as t1 on "t2."id sinh_viên" = "t1."id cá_nhân" group by "t2."id sinh_viên" order by count ( * ) desc limit 1
+extra gold: select t1."chi_tiết sinh_viên" from "sinh_viên" as t1 join "lượt đăng_ký khoá học của sinh_viên" as t2 on t1."id sinh_viên" = t2."id sinh_viên" group by t1."id sinh_viên" order by count ( * ) desc limit 1
+
+eval_err_num:760
+medium pred: select "t1."id sinh_viên" , count ( * ) from "lượt đăng_ký khoá học của sinh_viên" as t2 join "sinh_viên" as t1 on "t2."id sinh_viên" = "t1."id cá_nhân" group by "t1."id cá_nhân"
+medium gold: select t1."id sinh_viên" , count ( * ) from "sinh_viên" as t1 join "lượt đăng_ký khoá học của sinh_viên" as t2 on t1."id sinh_viên" = t2."id sinh_viên" group by t1."id sinh_viên"
+
+eval_err_num:761
+medium pred: select count ( * ) , "id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" as t1 join "sinh_viên" as t2 on "t1."id sinh_viên" = "t2."id cá_nhân" group by "t1."id sinh_viên"
+medium gold: select t1."id sinh_viên" , count ( * ) from "sinh_viên" as t1 join "lượt đăng_ký khoá học của sinh_viên" as t2 on t1."id sinh_viên" = t2."id sinh_viên" group by t1."id sinh_viên"
+
+eval_err_num:762
+hard pred: select "t1."tên khoá học" , count ( * ) from "lượt đăng_ký khoá học của sinh_viên" as t2 join "khoá học" as t1 on "t2."id khoá học" = "t1."id khoá học" group by "t2."id khoá học"
+hard gold: select t3."tên khoá học" , count ( * ) from "sinh_viên" as t1 join "lượt đăng_ký khoá học của sinh_viên" as t2 on t1."id sinh_viên" = t2."id sinh_viên" join "khoá học" as t3 on t2."id khoá học" = t3."id khoá học" group by t2."id khoá học"
+
+eval_err_num:763
+hard pred: select "t1."id khoá học" , count ( * ) from "lượt đăng_ký khoá học của sinh_viên" as t2 join "khoá học" as t1 on "t2."id khoá học" = 
+"t1."id khoá học" group by "t1."id khoá học"
+hard gold: select t3."tên khoá học" , count ( * ) from "sinh_viên" as t1 join "lượt đăng_ký khoá học của sinh_viên" as t2 on t1."id sinh_viên" = t2."id sinh_viên" join "khoá học" as t3 on t2."id khoá học" = t3."id khoá học" group by t2."id khoá học"
+
+eval_err_num:764
+hard pred: select t1."số di_động" from "ứng_cử_viên" as t1 join "đánh_giá ứng_cử_viên" as t2 on t1."id ứng_cử_viên" = t2."id ứng_cử_viên" where 
+t2."mã kết_quả đánh_giá" = "Trượt"
+hard gold: select t3."số di_động" from "ứng_cử_viên" as t1 join "đánh_giá ứng_cử_viên" as t2 on t1."id ứng_cử_viên" = t2."id ứng_cử_viên" join "cá_nhân" as t3 on t1."id ứng_cử_viên" = t3."id cá_nhân" where t2."mã kết_quả đánh_giá" = "Fail"
+
+hard pred: select t1."số di_động" from "cá_nhân" as t1 join "đánh_giá ứng_cử_viên" as t2 on t1."id cá_nhân" = t2."id ứng_cử_viên" where t2."mã kết_quả đánh_giá" = "Trượt"
+hard gold: select t3."số di_động" from "ứng_cử_viên" as t1 join "đánh_giá ứng_cử_viên" as t2 on t1."id ứng_cử_viên" = t2."id ứng_cử_viên" join "cá_nhân" as t3 on t1."id ứng_cử_viên" = t3."id cá_nhân" where t2."mã kết_quả đánh_giá" = "Fail"
+
+eval_err_num:765
+easy pred: select "t1."id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" as t2 join "sinh_viên" as t1 on "t2."id sinh_viên" = "t1."id sinh_viên" where "t2."id khoá học" = 301
+easy gold: select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên" where "id khoá học" = 301
+
+easy pred: select "id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" where "id khoá học" = 301
+easy gold: select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên" where "id khoá học" = 301
+
+eval_err_num:766
+hard pred: select "t1."id sinh_viên" from "lần tham_dự khoá học của sinh_viên" as t2 join "sinh_viên" as t1 on "t2."id sinh_viên" = "t1."id sinh_viên" where "t2."id khoá học" = 301 order by "t2."ngày tham_dự" desc limit 1
+hard gold: select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên" where "id khoá học" = 301 order by "ngày tham_dự" desc limit 1       
+
+eval_err_num:767
+hard pred: select "t1."id sinh_viên" from "lần tham_dự khoá học của sinh_viên" as t2 join "sinh_viên" as t1 on "t2."id sinh_viên" = "t1."id sinh_viên" where "t2."id khoá học" = 301 and "t2."ngày tham_dự" = ( select max ( "ngày tham_dự" ) from "lần tham_dự khoá học của sinh_viên" where "id khoá học" = 301 )
+hard gold: select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên" where "id khoá học" = 301 order by "ngày tham_dự" desc limit 1       
+
+easy pred: select distinct "thành_phố" from "địa_chỉ" where count ( * ) < 1
+easy gold: select distinct t1."thành_phố" from "địa_chỉ" as t1 join "địa_chỉ cá_nhân" as t2 on t1."id địa_chỉ" = t2."id địa_chỉ"
+
+eval_err_num:768
+medium pred: select distinct t3."thành_phố" from "địa_chỉ cá_nhân" as t1 join "cá_nhân" as t2 on "t1."id cá_nhân" = "t2."id cá_nhân" join "địa_chỉ" as t3 on "t1."id địa_chỉ" = "t3."id địa_chỉ" group by t3."thành_phố"
+medium gold: select distinct t1."thành_phố" from "địa_chỉ" as t1 join "địa_chỉ cá_nhân" as t2 on t1."id địa_chỉ" = t2."id địa_chỉ" join "sinh_viên" as t3 on t2."id cá_nhân" = t3."id sinh_viên"
+
+medium pred: select distinct t3."thành_phố" from "địa_chỉ cá_nhân" as t1 join "cá_nhân" as t2 on t1."id cá_nhân" = t2."id cá_nhân" join "địa_chỉ" as t3 on t1."id địa_chỉ" = t3."id địa_chỉ" group by t3."thành_phố" having count ( * ) > 0
+medium gold: select distinct t1."thành_phố" from "địa_chỉ" as t1 join "địa_chỉ cá_nhân" as t2 on t1."id địa_chỉ" = t2."id địa_chỉ" join "sinh_viên" as t3 on t2."id cá_nhân" = t3."id sinh_viên"
+
+eval_err_num:769
+hard pred: select distinct "t1."id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" as t1 join "lần tham_dự khoá học của sinh_viên" as t2 on "t1."id sinh_viên" = "t2."id sinh_viên"
+hard gold: select "id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" union select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên"
+
+eval_err_num:770
+hard pred: select "t1."id khoá học" from "lượt đăng_ký khoá học của sinh_viên" as t2 join "lần tham_dự khoá học của sinh_viên" as t1 on "t2."id 
+sinh_viên" = "t1."id sinh_viên" where "t2."id sinh_viên" = 121
+hard gold: select "id khoá học" from "lượt đăng_ký khoá học của sinh_viên" where "id sinh_viên" = 121 union select "id khoá học" from "lần tham_dự khoá học của sinh_viên" where "id sinh_viên" = 121
+
+eval_err_num:771
+hard pred: select "t1."id khoá học" from "lượt đăng_ký khoá học của sinh_viên" as t2 join "lần tham_dự khoá học của sinh_viên" as t1 on "t2."id 
+sinh_viên" = "t1."id sinh_viên" where "t2."id sinh_viên" = 121
+hard gold: select "id khoá học" from "lượt đăng_ký khoá học của sinh_viên" where "id sinh_viên" = 121 union select "id khoá học" from "lần tham_dự khoá học của sinh_viên" where "id sinh_viên" = 121
+
+eval_err_num:772
+hard pred: select t1."id sinh_viên" , t1."chi_tiết sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" as t1 join "lần tham_dự khoá học của sinh_viên" as t2 on t1."id sinh_viên" = t2."id sinh_viên" where t1."id sinh_viên" not in ( select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên" )
+hard gold: select * from "lượt đăng_ký khoá học của sinh_viên" where "id sinh_viên" not in ( select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên" )
+
+eval_err_num:773
+hard pred: select "t1."chi_tiết sinh_viên" from "cá_nhân" as t1 except select "t2."chi_tiết sinh_viên" from "cá_nhân" as t2 join "lần tham_dự khoá học của sinh_viên" as t3 on "t2."id cá_nhân" = "t3."id sinh_viên"
+hard gold: select * from "lượt đăng_ký khoá học của sinh_viên" where "id sinh_viên" not in ( select "id sinh_viên" from "lần tham_dự khoá học của sinh_viên" )
+
+eval_err_num:774
+hard pred: select "t1."id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" as t1 join "khoá học" as t2 on "t1."id khoá học" = "t2."id khoá 
+học" where "t2."tên khoá học" = "thống_kê" order by "t1."ngày đăng_ký"
+hard gold: select t2."id sinh_viên" from "khoá học" as t1 join "lượt đăng_ký khoá học của sinh_viên" as t2 on t1."id khoá học" = t2."id khoá học" where t1."tên khoá học" = "statistics" order by t2."ngày đăng_kí"
+
+eval_err_num:775
+hard pred: select "t1."id sinh_viên" from "lượt đăng_ký khoá học của sinh_viên" as t1 join "khoá học" as t2 on "t1."id khoá học" = "t2."id khoá 
+học" where "t2."tên khoá học" = "thống_kê" order by "t1."ngày đăng_ký"
+hard gold: select t2."id sinh_viên" from "khoá học" as t1 join "lượt đăng_ký khoá học của sinh_viên" as t2 on t1."id khoá học" = t2."id khoá học" where t1."tên khoá học" = "statistics" order by t2."ngày đăng_kí"
+
+eval_err_num:776
+hard pred: select "t1."id sinh_viên" from "lần tham_dự khoá học của sinh_viên" as t1 join "khoá học" as t2 on "t1."id khoá học" = "t2."id khoá học" where "t2."tên khoá học" = "thống_kê" order by "t1."ngày tham_dự"
+hard gold: select t2."id sinh_viên" from "khoá học" as t1 join "lần tham_dự khoá học của sinh_viên" as t2 on t1."id khoá học" = t2."id khoá học" where t1."tên khoá học" = "statistics" order by t2."ngày tham_dự"
+
+eval_err_num:777
+hard pred: select "t1."id sinh_viên" from "lần tham_dự khoá học của sinh_viên" as t1 join "khoá học" as t2 on "t1."id khoá học" = "t2."id khoá học" where "t2."tên khoá học" = "Statistics" order by "t1."ngày tham_dự"
+hard gold: select t2."id sinh_viên" from "khoá học" as t1 join "lần tham_dự khoá học của sinh_viên" as t2 on t1."id khoá học" = t2."id khoá học" where t1."tên khoá học" = "statistics" order by t2."ngày tham_dự"
+
+eval_err_num:778
+easy pred: select "t1."tác_giả" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" order by "t1."số điểm" asc
+easy gold: select "tác_giả" from "lượt nộp bài" order by "số điểm" asc
+
+eval_err_num:779
+medium pred: select t1."tác_giả" , t2."trường đại_học" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on t1."id lượt nộp bài" = t2."id lượt nộp bài"
+medium gold: select "tác_giả" , "trường đại_học" from "lượt nộp bài"
+
+eval_err_num:780
+medium pred: select "t1."tác_giả" from "lượt nộp bài" as t1 join "chấp thuận" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" where "t1."số điểm" = ( select max ( "số điểm" ) from "lượt nộp bài" )
+medium gold: select "tác_giả" from "lượt nộp bài" order by "số điểm" desc limit 1
+
+eval_err_num:781
+medium pred: select "t1."trường đại_học" , count ( * ) from "lượt nộp bài" as t1 join "trường đại_học" as t2 on "t1."trường đại_học" = "t2."id trường đại_học" group by "t1."trường đại_học"
+medium gold: select "trường đại_học" , count ( * ) from "lượt nộp bài" group by "trường đại_học"
+
+eval_err_num:782
+hard pred: select distinct "t1."trường đại_học" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" group by "t1."trường đại_học" order by count ( * ) desc limit 1
+hard gold: select "trường đại_học" from "lượt nộp bài" group by "trường đại_học" order by count ( * ) desc limit 1
+
+eval_err_num:783
+hard pred: select distinct "t1."trường đại_học" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" group by "t1."trường đại_học" order by count ( * ) desc limit 1
+hard gold: select "trường đại_học" from "lượt nộp bài" group by "trường đại_học" order by count ( * ) desc limit 1
+
+eval_err_num:784
+hard pred: select "t1."trường đại_học" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" where 
+"t1."số điểm" > 90 intersect select "t1."trường đại_học" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" where "t1."số điểm" < 80
+hard gold: select "trường đại_học" from "lượt nộp bài" where "số điểm" > 90 intersect select "trường đại_học" from "lượt nộp bài" where "số điểm" < 80
+
+eval_err_num:785
+hard pred: select "t1."trường đại_học" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" where 
+"t1."số điểm" > 90 intersect select "t1."trường đại_học" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" where "t1."số điểm" < 80
+hard gold: select "trường đại_học" from "lượt nộp bài" where "số điểm" > 90 intersect select "trường đại_học" from "lượt nộp bài" where "số điểm" < 80
+
+eval_err_num:786
+hard pred: select t1."kết_quả" from "chấp_thuận" as t1 join "lượt nộp bài" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" order by "t2."số điểm" desc limit 1
+hard gold: select t1."kết_quả" from "chấp_thuận" as t1 join "lượt nộp bài" as t2 on t1."id lượt nộp bài" = t2."id lượt nộp bài" order by t2."số 
+điểm" desc limit 1
+
+eval_err_num:787
+hard pred: select "t1."kết_quả" from "chấp_thuận" as t1 join "lượt nộp bài" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" where "t2."số điểm" = ( select max ( "số điểm" ) from "lượt nộp bài" )
+hard gold: select t1."kết_quả" from "chấp_thuận" as t1 join "lượt nộp bài" as t2 on t1."id lượt nộp bài" = t2."id lượt nộp bài" order by t2."số 
+điểm" desc limit 1
+
+medium pred: select t1."tác_giả" , count ( * ) from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on t1."id lượt nộp bài" = t2."id lượt nộp bài" 
+group by t1."tác_giả" order by count ( * ) desc
+medium gold: select t2."tác_giả" , count ( distinct t1."id hội_thảo" ) from "chấp_thuận" as t1 join "lượt nộp bài" as t2 on t1."id lượt nộp bài" = t2."id lượt nộp bài" group by t2."tác_giả"
+
+medium pred: select t1."tác_giả" , count ( * ) from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on t1."id lượt nộp bài" = t2."id lượt nộp bài" 
+group by t1."tác_giả"
+medium gold: select t2."tác_giả" , count ( distinct t1."id hội_thảo" ) from "chấp_thuận" as t1 join "lượt nộp bài" as t2 on t1."id lượt nộp bài" = t2."id lượt nộp bài" group by t2."tác_giả"
+
+eval_err_num:788
+medium pred: select "tác_giả" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on "t1."id lượt nộp bài" = "t2."id lượt nộp bài" group by "tác_giả" having count ( * ) > 1
+medium gold: select t2."tác_giả" from "chấp_thuận" as t1 join "lượt nộp bài" as t2 on t1."id lượt nộp bài" = t2."id lượt nộp bài" group by t2."tác_giả" having count ( distinct t1."id hội_thảo" ) > 1
+
+medium pred: select t1."tác_giả" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on t1."id lượt nộp bài" = t2."id lượt nộp bài" group by t1."tác_giả" having count ( * ) > 1
+medium gold: select t2."tác_giả" from "chấp_thuận" as t1 join "lượt nộp bài" as t2 on t1."id lượt nộp bài" = t2."id lượt nộp bài" group by t2."tác_giả" having count ( distinct t1."id hội_thảo" ) > 1
+
+hard pred: select "tác_giả" from "lượt nộp bài" except select t1."tác_giả" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on t1."id lượt nộp 
+bài" = t2."id lượt nộp bài"
+hard gold: select "tác_giả" from "lượt nộp bài" where "id lượt nộp bài" not in ( select "id lượt nộp bài" from "chấp_thuận" )
+
+hard pred: select "tác_giả" from "lượt nộp bài" except select t1."tác_giả" from "lượt nộp bài" as t1 join "chấp_thuận" as t2 on t1."id lượt nộp 
+bài" = t2."id lượt nộp bài"
+hard gold: select "tác_giả" from "lượt nộp bài" where "id lượt nộp bài" not in ( select "id lượt nộp bài" from "chấp_thuận" )
+
+eval_err_num:789
+easy pred: select t1."tên" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."đánh_giá 
+xếp_hạng" > 4.5
+easy gold: select "tên" from "doanh_nghiệp" where "đánh_giá xếp_hạng" > 4.5
+
+eval_err_num:790
+easy pred: select t1."tên" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."đánh_giá 
+xếp hạng" = 3.5
+easy gold: select "tên" from "doanh_nghiệp" where "đánh_giá xếp_hạng" = 3.5
+
+eval_err_num:791
+easy pred: select t2."tiểu_bang" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t1."tên" = "Whataburger"
+easy gold: select "tiểu_bang" from "doanh_nghiệp" where "tên" = "Whataburger"
+
+eval_err_num:792
+medium pred: select t1."thành_phố" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "restaurant" and "t1."tên" = "MGM Steakhouse"
+medium gold: select t1."thành_phố" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tên" = "MGM Grand Buffet" and t2."tên loại_hình" = "category_category_name0"
+
+eval_err_num:793
+medium pred: select t1."tên" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."đánh_giá xếp_hạng" > 3.5
+medium gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."đánh_giá 
+xếp_hạng" > 3.5 and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:794
+medium pred: select distinct "t1."thành_phố" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "Restaurant" and "t1."tên" = "Taj_Mahal"
+medium gold: select t1."thành_phố" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tên" = "Taj Mahal" and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:795
+medium pred: select t2."văn_bản" from "đánh_giá" as t1 join "người tiêu_dùng" as t2 on t1."id người tiêu_dùng" = t2."id người tiêu_dùng" where t2."tên" = "Niloofar"
+medium gold: select t1."văn_bản" from "người tiêu_dùng" as t2 join "đánh_giá" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t2."tên" = "Niloofar"
+
+eval_err_num:796
+hard pred: select t1."tên" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."id người 
+tiêu_dùng" = "Niloofar"
+hard gold: select t1."tên" from "đánh_giá" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t3 on t3."id người tiêu_dùng" = t2."id người tiêu_dùng" where t3."tên" = "Niloofar"
+
+eval_err_num:797
+hard pred: select t1."tên" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."đánh_giá 
+xếp_hạng" = 5
+hard gold: select t1."tên" from "đánh_giá" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t3 on t3."id người tiêu_dùng" = t2."id người tiêu_dùng" where t2."đánh_giá xếp_hạng" = 5 and t3."tên" = "Niloofar"
+
+eval_err_num:798
+extra pred: select t3."văn_bản" from "đánh_giá" as t1 join "loại_hình" as t2 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" join "doanh_nghiệp" 
+as t3 on t2."id doanh_nghiệp" = t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t1."id người tiêu_dùng" = t4."id người tiêu_dùng" where t4."tên" = "Michelle" and t2."tên loại_hình" = "Italian Restaurant"
+extra gold: select t4."văn_bản" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t4 on t4."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t5 on t5."id người tiêu_dùng" = t4."id người tiêu_dùng" where t2."tên loại_hình" = "Italian" and t3."tên loại_hình" = "category_category_name1" and t5."tên" = "Michelle"
+
+eval_err_num:799
+hard pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" 
+as t3 on "t2."id" = "t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on "t3."id người tiêu_dùng" = "t4."id người tiêu_dùng" where "t1."tên" = 
+"Cafe_Zinho" and "t1."tiểu_bang" = "Texas"
+hard gold: select count ( distinct t3."văn_bản" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tên" = "Cafe Zinho" and t1."tiểu_bang" = "Texas" and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:800
+hard pred: select t1."tên" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t1."tên" = "Italian" and "t2."đánh_giá xếp_hạng" = 5
+hard gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."đánh_giá xếp_hạng" = 5 and t2."tên loại_hình" = "Italian" and t3."tên loại_hình" = "restaurant"
+
+eval_err_num:801
+extra pred: select "t1."tên khu_phố lân_cận" from "khu_vực lân_cận" as t1 join "doanh_nghiệp" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên" = "nhà_hàng Ý" and "t2."thành_phố" = "Madison"
+extra gold: select t1."tên khu_phố lân_cận" from "loại_hình" as t3 join "doanh_nghiệp" as t2 on t3."id doanh_nghiệp" = t2."id doanh_nghiệp" join "loại_hình" as t4 on t4."id doanh_nghiệp" = t2."id doanh_nghiệp" join "khu_vực lân_cận" as t1 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" where t2."thành_phố" = "Madison" and t3."tên loại_hình" = "Italian" and t4."tên loại_hình" = "restaurant"
+
+eval_err_num:802
+extra pred: select "t3."tên khu_phố lân_cận" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "khu_vực lân_cận" as t3 on "t1."id doanh_nghiệp" = "t3."id doanh_nghiệp" where "t2."tên loại_hình" = "Italian" and "t1."đánh_giá xếp_hạng" < 2.5 and "t3."tên khu_phố lân_cận" = "Madison"
+extra gold: select t1."tên khu_phố lân_cận" from "loại_hình" as t3 join "doanh_nghiệp" as t2 on t3."id doanh_nghiệp" = t2."id doanh_nghiệp" join "loại_hình" as t4 on t4."id doanh_nghiệp" = t2."id doanh_nghiệp" join "khu_vực lân_cận" as t1 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" where t2."thành_phố" = "Madison" and t2."đánh_giá xếp_hạng" < 2.5 and t3."tên loại_hình" = "Italian" and t4."tên loại_hình" = "restaurant"        
+
+eval_err_num:803
+medium pred: select t1."tên" , "t1."id doanh_nghiệp" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "nhà_hàng" and "t1."tiểu_bang" = "Pennsylvania"
+medium gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tiểu_bang" = "Pennsylvania" and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:804
+medium pred: select t1."tên" , "t1."id doanh_nghiệp" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "khu_vực lân_cận" as t3 on "t1."id doanh_nghiệp" = "t3."id doanh_nghiệp" where "t2."tên loại_hình" = "Restaurant" and "t3."tiểu_bang" = "Pennsylvania"
+medium gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tiểu_bang" = "Pennsylvania" and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:805
+hard pred: select t3."văn_bản" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as t3 on "t1."id doanh_nghiệp" = "t3."id doanh_nghiệp" where "t2."tên loại_hình" = "chải_chuốt cho vật_nuôi" and "t1."số_lượng đánh_giá" > 100 
+hard gold: select t3."văn_bản" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."số_lượng đánh_giá" > 100 and t2."tên loại_hình" = "Pet Groomers"
+
+medium pred: select "tên" from "doanh_nghiệp" where "tên" like "%brewery%" and "thành_phố" = "Los_Angeles"
+medium gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Los Angeles" and t2."tên loại_hình" = "breweries"
+
+medium pred: select "tên" from "doanh_nghiệp" where "thành_phố" = "Los_Angeles"
+medium gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Los Angeles" and t2."tên loại_hình" = "breweries"
+
+medium pred: select "tên" from "doanh_nghiệp" where "tên" like "%brewery%" and "thành_phố" = "Los_Angeles"
+medium gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Los Angeles" and t2."tên loại_hình" = "breweries"
+
+eval_err_num:806
+extra pred: select t3."tên" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as t3 on "t2."id" = "t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on "t3."id người tiêu_dùng" = "t4."id người tiêu_dùng" where "t1."tên" = "Mesa_Grill"
+extra gold: select t4."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t1."tên" = "Mesa Grill" and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:807
+medium pred: select "t1."địa_chỉ đầy_đủ" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "Walmart" and "t1."thành_phố" = "Los_Angeles"
+medium gold: select "địa_chỉ đầy_đủ" from "doanh_nghiệp" where "thành_phố" = "Los Angeles" and "tên" = "Walmart"
+
+eval_err_num:808
+extra pred: select t1."tên" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "người tiêu_dùng" as t3 on "t2."id người tiêu_dùng" = "t3."id người tiêu_dùng" where "t1."thành_phố" = "Dallas" and "t3."tên" = "Patrick"
+extra gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t1."thành_phố" = "Dallas" and t2."tên loại_hình" = "restaurant" and t4."tên" = "Patrick"
+
+eval_err_num:809
+extra pred: select t3."tên" from "doanh_nghiệp" as t3 join "lượt đăng_ký" as t2 on t3."id doanh_nghiệp" = t2."id doanh_nghiệp" join "người tiêu_dùng" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" join "đánh_giá" as t4 on t2."id doanh_nghiệp" = t4."id doanh_nghiệp" join "khu_vực lân_cận" as t5 on t3."id doanh_nghiệp" = t5."id doanh_nghiệp" where t5."tên khu_phố lân_cận" = "Dallas" and t1."tên" = "Patrick" and t4."đánh_giá xếp_hạng" > 2.5
+extra gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t1."thành_phố" = "Dallas" and t2."tên loại_hình" = "restaurant" and t4."tên" = "Patrick"
+
+eval_err_num:810
+extra pred: select t1."tên" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "người tiêu_dùng" as t3 on "t2."id người tiêu_dùng" = "t3."id người tiêu_dùng" where t3."tên" = "Patrick"
+extra gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t2."tên loại_hình" = "Bars" and t4."tên" = "Patrick"
+
+eval_err_num:811
+extra pred: select t1."tên" , "t1."id doanh_nghiệp" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."đánh_giá xếp_hạng" >= 3 and "t2."id người tiêu_dùng" = ( select "id người tiêu_dùng" from "người tiêu_dùng" where "tên" = "Patrick" )
+extra gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t1."đánh_giá xếp_hạng" >= 3 and t2."tên loại_hình" = "Bars" and t4."tên" = "Patrick"
+
+eval_err_num:812
+medium pred: select "tên" from "doanh_nghiệp" where "tiểu_bang" = "Texas" and "xếp_hạng đánh_giá" < 2
+medium gold: select "tên" from "doanh_nghiệp" where "đánh_giá xếp_hạng" < 2 and "tiểu_bang" = "Texas"
+
+eval_err_num:813
+hard pred: select t1."tên" , t1."địa_chỉ đầy_đủ" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "hải_sản" and t1."thành_phố" = "Los_Angeles"
+hard gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Los Angeles" and t2."tên loại_hình" = "Seafood" and t3."tên loại_hình" 
+= "restaurant"
+
+eval_err_num:814
+hard pred: select t1."tên" , t1."địa_chỉ đầy_đủ" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "hải_sản" and t1."thành_phố" = "Los_Angeles"
+hard gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Los Angeles" and t2."tên loại_hình" = "Seafood" and t3."tên loại_hình" 
+= "restaurant"
+
+eval_err_num:815
+hard pred: select t1."tên" , t1."địa_chỉ đầy_đủ" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "Hải_sản" and t1."thành_phố" = "Los_Angeles"
+hard gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Los Angeles" and t2."tên loại_hình" = "Seafood" and t3."tên loại_hình" 
+= "restaurant"
+
+eval_err_num:816
+medium pred: select t2."văn_bản" from "đánh_giá" as t1 join "người tiêu_dùng" as t2 on t1."id người tiêu_dùng" = t2."id người tiêu_dùng" where t1."đánh_giá xếp_hạng" > 4 and t2."tên" = "Patrick"
+medium gold: select t1."văn_bản" from "người tiêu_dùng" as t2 join "đánh_giá" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t1."đánh_giá xếp_hạng" > 4 and t2."tên" = "Patrick"
+
+eval_err_num:817
+medium pred: select t1."tên" , t1."địa_chỉ đầy_đủ" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where t1."tên" = "Apple" and t1."thành_phố" = "Los_Angeles"
+medium gold: select "id doanh_nghiệp" from "doanh_nghiệp" where "thành_phố" = "Los Angeles" and "tên" = "Apple Store"
+
+eval_err_num:818
+medium pred: select t1."tên" , t1."địa_chỉ đầy_đủ" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "nhà_hàng" and t1."thành_phố" = "Dallas" and "t1."đánh_giá xếp_hạng" > 4.5
+medium gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Dallas" and t1."đánh_giá xếp_hạng" > 4.5 and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:819
+hard pred: select "t3."tên khu_phố lân_cận" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "khu_vực lân_cận" as t3 on "t2."id" = "t3."id" where "t1."tên" = "Flat_Top_Grill" and "t2."tên loại_hình" = "Restaurant"
+hard gold: select t1."tên khu_phố lân_cận" from "loại_hình" as t3 join "doanh_nghiệp" as t2 on t3."id doanh_nghiệp" = t2."id doanh_nghiệp" join 
+"khu_vực lân_cận" as t1 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" where t2."tên" = "Flat Top Grill" and t3."tên loại_hình" = "category_category_name0"
+
+eval_err_num:820
+medium pred: select t2."văn_bản" from "đánh_giá" as t1 join "doanh_nghiệp" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where t2."tên" = "Kabob_Cung_điện" and t1."năm" = 2014
+medium gold: select t2."văn_bản" from "đánh_giá" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tên" = "Kabob Palace" and t2."năm" = 2014
+
+hard pred: select t1."id người tiêu_dùng" from "người tiêu_dùng" as t1 join "khoản tiền boa" as t2 on t1."id người tiêu_dùng" = t2."id người tiêu_dùng" join "doanh_nghiệp" as t3 on t2."id doanh_nghiệp" = t3."id doanh_nghiệp" where t3."thành_phố" = "Dallas"
+hard gold: select t3."tên" from "khoản tiền boa" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t3 on t3."id người tiêu_dùng" = t2."id người tiêu_dùng" where t1."thành_phố" = "Dallas"
+
+eval_err_num:821
+medium pred: select t1."thành_phố" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "MGM Steakhouse" and "t1."tiểu_bang" = "Texas"
+medium gold: select t1."thành_phố" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tên" = "MGM Grand Buffet" and t1."tiểu_bang" = "Texas" and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:822
+extra pred: select "t3."id người tiêu_dùng" from "khoản tiền boa" as t1 join "doanh_nghiệp" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "lĩnh_vực lân_cận" as t3 on "t2."id doanh_nghiệp" = "t3."id doanh_nghiệp" where "t3."tên khu_phố lân_cận" = "chải_chuốt cho thú nuôi"   
+extra gold: select t4."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "khoản tiền boa" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t2."tên loại_hình" = "Pet Groomers"
+
+eval_err_num:823
+medium pred: select t3."văn_bản" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "khoản tiền boa" as t3 on "t2."id" = "t3."id loại_hình" join "đánh_giá" as t4 on "t3."id khoản tiền boa" = "t4."id khoản tiền boa" where "t1."tên" = "Cafe_Zinho" and "t1."tiểu_bang" = "Texas"
+medium gold: select t2."văn_bản" from "khoản tiền boa" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tên" = "Cafe Zinho" and t1."tiểu_bang" = "Texas"
+
+eval_err_num:824
+extra pred: select t3."tên" from "loại_hình" as t1 join "doanh_nghiệp" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as t3 on "t2."id doanh_nghiệp" = "t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on "t3."id người tiêu_dùng" = "t4."id người tiêu_dùng" where "t1."tên loại_hình" = "Restaurant"
+extra gold: select t4."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t2."tên loại_hình" = "restaurant"
+
+eval_err_num:825
+medium pred: select t3."văn_bản" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "lượt đăng_ký" as t3 on "t1."id doanh_nghiệp" = "t3."id doanh_nghiệp" join "khu_vực lân_cận" as t4 on "t1."id doanh_nghiệp" = "t4."id doanh_nghiệp" join "đánh_giá" as t5 on "t1."id doanh_nghiệp" = "t5."id doanh_nghiệp" join "khoản tiền boa" as t6 on "t1."id doanh_nghiệp" = "t6."id doanh_nghiệp" 
+join "người tiêu_dùng" as t7 on "t6."id người tiêu_dùng" = "t7."id người tiêu_dùng" where "t1."tên" = "cafe zinho" and "t5."năm" = 2010 and "t5."tiểu_bang" = "pennsylvania" and "t2."tên loại_hình" = "restaurant"
+medium gold: select t2."văn_bản" from "khoản tiền boa" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tên" = "Cafe Zinho" and t1."tiểu_bang" = "Pennsylvania" and t2."năm" = 2010
+
+extra pred: select t1."tên" from "đánh_giá" as t2 join "người tiêu_dùng" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t2."năm" = 2010
+extra gold: select t4."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t2."tên loại_hình" = "restaurant" and t3."năm" = 2010
+
+eval_err_num:826
+hard pred: select t1."văn_bản" from "đánh_giá" as t1 join "khoản tiền boa" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where t2."năm" = 2012
+hard gold: select t2."văn_bản" from "người tiêu_dùng" as t3 join "đánh_giá" as t1 on t3."id người tiêu_dùng" = t1."id người tiêu_dùng" join "khoản tiền boa" as t2 on t3."id người tiêu_dùng" = t2."id người tiêu_dùng" where t1."năm" = 2012
+
+medium pred: select "văn_bản" from "đánh_giá" where "đánh_giá xếp_hạng" = 2.5
+medium gold: select t2."văn_bản" from "đánh_giá" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."đánh_giá xếp_hạng" = 2.5
+
+eval_err_num:827
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "người tiêu_dùng" as t3 on "t2."id người tiêu_dùng" = "t3."id người tiêu_dùng" where "t1."thành_phố" = "Madison" and "t2."tên loại_hình" = "Escape Game" 
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t1."thành_phố" = "Madison" and t2."tên loại_hình" = "escape games"
+
+eval_err_num:828
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "người tiêu_dùng" as t3 on "t2."id người tiêu_dùng" = "t3."id người tiêu_dùng" where "t1."thành_phố" = "Madison" and "t2."tên loại_hình" = "Escape Game" 
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t1."thành_phố" = "Madison" and t2."tên loại_hình" = "escape games"
+
+eval_err_num:829
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "người tiêu_dùng" as t3 on "t2."id người tiêu_dùng" = "t3."id người tiêu_dùng" where "t1."thành_phố" = "Madison" and "t2."tên loại_hình" = "Escape Game" 
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t1."thành_phố" = "Madison" and t2."tên loại_hình" = "escape games"
+
+eval_err_num:830
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "người tiêu_dùng" as t3 on "t1."id doanh_nghiệp" = "t3."id người tiêu_dùng" where "t2."tên loại_hình" = "trò_chơi trốn thoát" and "t3."tên" = "Madison" and "t1."có mở_cửa hay không" = 1
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t1."thành_phố" = "Madison" and t2."tên loại_hình" = "escape games"
+
+eval_err_num:831
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "khu_vực 
+lân_cận" as t3 on "t1."id doanh_nghiệp" = "t3."id doanh_nghiệp" where "t3."tên khu_phố lân_cận" = "Madison" and "t2."tên loại_hình" = "Escape Game"
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t1."thành_phố" = "Madison" and t2."tên loại_hình" = "escape games"
+
+eval_err_num:832
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."đánh_giá xếp_hạng" > 3.5
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t1."đánh_giá xếp_hạng" > 3.5 and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:833
+extra pred: select t1."số_lượng đăng_ký" from "lượt đăng_ký" as t1 join "loại_hình" as t2 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" join "doanh_nghiệp" as t3 on t2."id doanh_nghiệp" = t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t1."id người tiêu_dùng" = t4."id người tiêu_dùng" where t2."tên loại_hình" = "Mexican" and t3."thành_phố" = "Los_Angeles"
+extra gold: select sum ( t4."số_lượng" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "lượt đăng_ký" as t4 on t4."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Los Angeles" and t2."tên loại_hình" = "restaurant" and t3."tên loại_hình" = "Moroccan"
+
+eval_err_num:834
+extra pred: select sum ( "t3."số lượt đăng_ký" ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "lượt đăng_ký" as t3 on "t2."id" = "t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on "t3."id người tiêu_dùng" = "t4."id người tiêu_dùng" where "t1."tên" = "McDonalds" and "t1."thành_phố" = "Los_Angeles" and "t3."ngày" = "Friday"
+extra gold: select sum ( t4."số_lượng" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "lượt đăng_ký" as t4 on t4."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Los Angeles" and t2."tên loại_hình" = "Moroccan" and t3."tên loại_hình" = "restaurant" and t4."ngày" = "Friday"
+
+eval_err_num:835
+extra pred: select t1."ngày" , sum ( t1."số_lượng" ) from "lượt đăng_ký" as t1 join "doanh_nghiệp" as t2 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" join "loại_hình" as t3 on t2."id doanh_nghiệp" = t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t1."id người tiêu_dùng" = t4."id người tiêu_dùng" where t3."tên loại_hình" = "Restaurant" and t2."thành_phố" = "Los_Angeles" group by t1."ngày"
+extra gold: select t4."ngày" , sum ( t4."số_lượng" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "lượt đăng_ký" as t4 on t4."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Los Angeles" and t2."tên loại_hình" = "Moroccan" and t3."tên loại_hình" = "restaurant" group by t4."ngày"
+
+eval_err_num:836
+extra pred: select t1."tiểu_bang" , sum ( t3."số lượt đăng_ký" ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" join "lượt đăng_ký" as t3 on t1."id doanh_nghiệp" = t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t3."id người tiêu_dùng" = t4."id người tiêu_dùng" where t1."tên" = "Italian_Delis" and t1."thành_phố" = "San_Francisco" group by t1."tiểu_bang" , t3."ngày"
+extra gold: select t1."tiểu_bang" , sum ( t4."số_lượng" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "lượt đăng_ký" as t4 on t4."id doanh_nghiệp" = t1."id doanh_nghiệp" where t2."tên loại_hình" = "Italian" and t3."tên loại_hình" = "Delis" and t4."ngày" = "Sunday" group by t1."tiểu_bang"
+
+medium pred: select count ( * ) from "đánh_giá" as t1 join "người tiêu_dùng" as t2 on t1."id người tiêu_dùng" = t2."id người tiêu_dùng" where t2."tên" = "Niloofar" and t1."năm" = 2015
+medium gold: select count ( distinct t1."văn_bản" ) from "người tiêu_dùng" as t2 join "đánh_giá" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t1."năm" = 2015 and t2."tên" = "Niloofar"
+
+eval_err_num:837
+medium pred: select count ( * ) from "lượt đăng_ký" as t1 join "doanh_nghiệp" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên" = "Cafe_Zinho" and "t1."ngày" = "Friday"
+medium gold: select t2."số_lượng" from "lượt đăng_ký" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tên" = "Cafe Zinho" and t2."ngày" = "Friday"
+
+eval_err_num:838
+hard pred: select count ( distinct "t3."id người tiêu_dùng" ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as t3 on "t2."id" = "t3."id doanh_nghiệp" join "khu_vực lân_cận" as t4 on "t1."id doanh_nghiệp" = "t4."id doanh_nghiệp" where "t1."tên" = "Sushi_Too" and "t4."tên khu_phố lân_cận" = "Pittsburgh"
+hard gold: select count ( distinct t3."tên" ) from "đánh_giá" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t3 on t3."id người tiêu_dùng" = t2."id người tiêu_dùng" where t1."thành_phố" = "Pittsburgh" and t1."tên" = "Sushi Too"   
+
+eval_err_num:839
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t1."thành_phố" = "Pittsburgh" and "t2."đánh_giá xếp_hạng" > 4.5
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t1."thành_phố" = "Pittsburgh" and t1."đánh_giá xếp_hạng" = 4.5 and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:840
+easy pred: select count ( * ) from "đánh_giá" as t1 join "khoản tiền boa" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."năm" = 2015
+easy gold: select count ( distinct "văn_bản" ) from "khoản tiền boa" where "năm" = 2015
+
+eval_err_num:841
+medium pred: select sum ( "t2."số lượt thích" ) from "đánh_giá" as t1 join "khoản tiền boa" as t2 on "t1."id đánh_giá" = "t2."id đánh_giá" where "t1."id người tiêu_dùng" = ( select "id người tiêu_dùng" from "người tiêu_dùng" where "tên" = "Niloofar" )
+medium gold: select sum ( t1."số lượt thích" ) from "người tiêu_dùng" as t2 join "khoản tiền boa" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t2."tên" = "Niloofar"
+
+eval_err_num:842
+medium pred: select sum ( "t1."số lượt thích" ) from "khoản tiền boa" as t1 join "đánh_giá" as t2 on "t1."id đánh_giá" = "t2."id đánh_giá" where "t2."tên doanh_nghiệp" = "Cafe_Zinho"
+medium gold: select sum ( t2."số lượt thích" ) from "khoản tiền boa" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tên" = "Cafe Zinho"
+
+eval_err_num:843
+hard pred: select sum ( "t3."số lượt thích" ) from "khoản tiền boa" as t1 join "đánh_giá" as t2 on "t1."id đánh_giá" = "t2."id đánh_giá" join "người tiêu_dùng" as t3 on "t2."id người tiêu_dùng" = "t3."id người tiêu_dùng" where "t1."id doanh_nghiệp" = ( select "id doanh_nghiệp" from "doanh_nghiệp" where "tên" = "Cafe_Zinho" ) and "t3."tên" = "Niloofar"
+hard gold: select sum ( t2."số lượt thích" ) from "khoản tiền boa" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t3 on t3."id người tiêu_dùng" = t2."id người tiêu_dùng" where t1."tên" = "Cafe Zinho" and t3."tên" = "Niloofar"     
+
+eval_err_num:844
+medium pred: select count ( t2."văn_bản" ) from "đánh_giá" as t1 join "khoản tiền boa" as t2 on "t1."id đánh_giá" = "t2."id đánh_giá" where "t1."id người tiêu_dùng" = ( select "id người tiêu_dùng" from "người tiêu_dùng" where "tên" = "Michelle" ) and t2."năm" = 2010
+medium gold: select count ( distinct t1."văn_bản" ) from "người tiêu_dùng" as t2 join "khoản tiền boa" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t1."năm" = 2010 and t2."tên" = "Michelle"
+
+eval_err_num:845
+medium pred: select count ( t2."văn_bản" ) from "đánh_giá" as t1 join "khoản tiền boa" as t2 on "t1."id đánh_giá" = "t2."id đánh_giá" where "t1."id người tiêu_dùng" = ( select "id người tiêu_dùng" from "người tiêu_dùng" where "tên" = "Michelle" ) and "t2."năm" = 2010
+medium gold: select count ( distinct t1."văn_bản" ) from "người tiêu_dùng" as t2 join "khoản tiền boa" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t1."năm" = 2010 and t2."tên" = "Michelle"
+
+eval_err_num:846
+medium pred: select count ( * ) from "đánh_giá" as t1 join "khoản tiền boa" as t2 on "t1."id đánh_giá" = "t2."id đánh_giá" join "người tiêu_dùng" as t3 on "t2."id người tiêu_dùng" = "t3."id người tiêu_dùng" where "t3."tên" = "Michelle" and "t1."tháng" = "April"
+medium gold: select count ( distinct t1."văn_bản" ) from "người tiêu_dùng" as t2 join "khoản tiền boa" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t1."tháng" = "April" and t2."tên" = "Michelle"
+
+eval_err_num:847
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "nhà_hàng" and "t1."địa_chỉ đầy_đủ" like "%Texas%"
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t1."tiểu_bang" = "Texas" and t2."tên loại_hình" = "restaurant"
+
+eval_err_num:848
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "bar" and "t1."đánh_giá xếp_hạng" > 3.5 and "t1."thành_phố" = "Dallas"
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t1."thành_phố" = "Dallas" and t1."đánh_giá xếp_hạng" > 3.5 and t2."tên loại_hình" = "Bars"
+
+eval_err_num:849
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "bar" and "t1."đánh_giá xếp_hạng" > 3.5 and "t1."thành_phố" = "Dallas"
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t1."thành_phố" = "Dallas" and t1."đánh_giá xếp_hạng" > 3.5 and t2."tên loại_hình" = "Bars"
+
+eval_err_num:850
+extra pred: select count ( distinct "t3."id người tiêu_dùng" ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as t3 on "t2."id" = "t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on "t3."id người tiêu_dùng" = "t4."id người tiêu_dùng" where "t1."tên" = "Texas de Brazil" and "t1."thành_phố" = "Dallas" and "t2."tên loại_hình" = "Restaurant"
+extra gold: select count ( distinct t4."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t1."thành_phố" = "Dallas" and t1."tên" = "Texas de Brazil" and t1."tiểu_bang" = "Texas" and t2."tên loại_hình" = "restaurant"       
+
+eval_err_num:851
+hard pred: select count ( distinct "t3."id người tiêu_dùng" ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as t3 on "t2."id" = "t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on "t3."id người tiêu_dùng" = "t4."id người tiêu_dùng" where "t1."tên" = "Bistro_Di_Napoli" and "t3."năm" = 2015
+hard gold: select count ( distinct t3."tên" ) from "đánh_giá" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t3 on t3."id người tiêu_dùng" = t2."id người tiêu_dùng" where t1."tên" = "Bistro Di Napoli" and t2."năm" = 2015
+
+eval_err_num:852
+hard pred: select count ( * ) from "doanh_nghiệp" as t1 join "khu_vực lân_cận" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên khu_phố lân_cận" = "Hazelwood" and "t1."thành_phố" = "Dallas" and "t1."tên loại_hình" = "nhà_hàng"
+hard gold: select count ( distinct t1."tên" ) from "loại_hình" as t3 join "doanh_nghiệp" as t1 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "khu_vực lân_cận" as t2 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Dallas" and t3."tên loại_hình" = "restaurant" 
+and t2."tên khu_phố lân_cận" = "Hazelwood"
+
+eval_err_num:853
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "người tiêu_dùng" as t3 on "t1."id doanh_nghiệp" = "t3."id doanh_nghiệp" where "t2."tên loại_hình" = "Starbucks" and "t1."thành_phố" = "Dallas" and "t1."tiểu_bang" = "Texas"
+medium gold: select count ( distinct "id doanh_nghiệp" ) from "doanh_nghiệp" where "thành_phố" = "Dallas" and "tên" = "Starbucks" and "tiểu_bang" = "Texas"
+
+eval_err_num:854
+easy pred: select count ( * ) from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t1."tên" = "Acacia_Cafe"
+easy gold: select "số_lượng đánh_giá" from "doanh_nghiệp" where "tên" = "Acacia Cafe"
+
+eval_err_num:855
+extra pred: select t1."ngày" , avg ( t2."số_lượng" ) from "doanh_nghiệp" as t1 join "lượt đăng_ký" as t2 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" where t1."tên" = "Barrio_Cafe" group by t1."ngày"
+extra gold: select avg ( t3."số_lượng" ) , t3."ngày" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "lượt đăng_ký" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tên" = "Barrio Cafe" and t2."tên loại_hình" = "restaurant" group by t3."ngày"
+
+eval_err_num:856
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "khu_vực lân_cận" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên khu_phố lân_cận" = "Stone_Meadows" and "t1."thành_phố" = "Madison"
+medium gold: select count ( distinct t1."tên" ) from "khu_vực lân_cận" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Madison" and t2."tên khu_phố lân_cận" = "Stone Meadows"
+
+medium pred: select count ( * ) from "đánh_giá" as t1 join "người tiêu_dùng" as t2 on t1."id người tiêu_dùng" = t2."id người tiêu_dùng" where t2."tên" = "Adrienne"
+medium gold: select count ( distinct t1."văn_bản" ) from "người tiêu_dùng" as t2 join "đánh_giá" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t2."tên" = "Adrienne"
+
+medium pred: select count ( * ) from "đánh_giá" as t1 join "người tiêu_dùng" as t2 on t1."id người tiêu_dùng" = t2."id người tiêu_dùng" where t2."tên" = "Michelle" and t1."tháng" = "3" and t1."năm" = 2014
+medium gold: select count ( distinct t1."văn_bản" ) from "người tiêu_dùng" as t2 join "đánh_giá" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t1."tháng" = "March" and t1."năm" = 2014 and t2."tên" = "Michelle"
+
+eval_err_num:857
+hard pred: select count ( distinct "t1."id doanh_nghiệp" ) from "đánh_giá" as t1 join "người tiêu_dùng" as t2 on "t1."id người tiêu_dùng" = "t2."id người tiêu_dùng" where "t2."tên" = "Michelle" and "t1."năm" = 2010
+hard gold: select count ( distinct t1."tên" ) from "đánh_giá" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t3 on t3."id người tiêu_dùng" = t2."id người tiêu_dùng" where t2."năm" = 2010 and t3."tên" = "Michelle"
+
+eval_err_num:858
+hard pred: select count ( * ) from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "người tiêu_dùng" as t3 on "t2."id người tiêu_dùng" = "t3."id người tiêu_dùng" where "t1."thành_phố" = "San_Diego" and "t3."tên" = "Christine" and "t2."năm" = 2010
+hard gold: select count ( distinct t1."tên" ) from "đánh_giá" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t3 on t3."id người tiêu_dùng" = t2."id người tiêu_dùng" where t1."thành_phố" = "San Diego" and t2."năm" = 2010 and t3."tên" = "Christine"
+
+eval_err_num:859
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t1."tên" = "Target" and "t1."thành_phố" = "Los_Angeles"
+medium gold: select count ( distinct "id doanh_nghiệp" ) from "doanh_nghiệp" where "thành_phố" = "Los Angeles" and "tên" = "Target"
+
+eval_err_num:860
+extra pred: select count ( distinct "t3."id người tiêu_dùng" ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as t3 on "t2."id" = "t3."id doanh_nghiệp" join "khu_vực lân_cận" as t4 on "t1."id doanh_nghiệp" = "t4."id doanh_nghiệp" where "t1."tên" = "quán rượu Ai-len" and "t4."tên khu_phố lân_cận" = "Dallas"
+extra gold: select count ( distinct t4."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t1."thành_phố" = "Dallas" and t2."tên loại_hình" = "Irish Pub"
+
+eval_err_num:861
+easy pred: select avg ( "số điểm đánh_giá" ) from "đánh_giá" where "năm" = 2014
+easy gold: select avg ( "đánh_giá xếp_hạng" ) from "đánh_giá" where "năm" = 2014
+
+eval_err_num:862
+extra pred: select count ( distinct "t3."id người tiêu_dùng" ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as t3 on "t2."id" = "t3."id doanh_nghiệp" join "người tiêu_dùng" as t4 on "t3."id người tiêu_dùng" = "t4."id người tiêu_dùng" where "t1."tên" = "Vintner_Grill" and "t3."năm" = 2010
+extra gold: select count ( distinct t4."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "người tiêu_dùng" as t4 on t4."id người tiêu_dùng" = t3."id người tiêu_dùng" where t1."tên" = "Vintner Grill" and t2."tên loại_hình" = "category_category_name0" and t3."năm" = 2010
+
+eval_err_num:863
+hard pred: select count ( "t3."số lượng đánh_giá" ) from "doanh_nghiệp" as t1 join "khu_vực lân_cận" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as t3 on "t1."id doanh_nghiệp" = "t3."id doanh_nghiệp" where "t2."tên khu_phố lân_cận" = "South_Summerlin"
+hard gold: select count ( distinct t3."văn_bản" ) from "khu_vực lân_cận" as t1 join "doanh_nghiệp" as t2 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" join "đánh_giá" as t3 on t3."id doanh_nghiệp" = t2."id doanh_nghiệp" where t1."tên khu_phố lân_cận" = "South Summerlin"
+
+easy pred: select count ( * ) from "người tiêu_dùng" where "tên" = "Michelle"
+easy gold: select count ( distinct "tên" ) from "người tiêu_dùng" where "tên" = "Michelle"
+
+eval_err_num:864
+medium pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "nhà_hàng"
+medium gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" 
+where t2."tên loại_hình" = "restaurant"
+
+eval_err_num:865
+easy pred: select count ( distinct t1."thành_phố" ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where t1."tên" = "Panda_Express" and "t2."tên loại_hình" = "Restaurant"
+easy gold: select count ( distinct "thành_phố" ) from "doanh_nghiệp" where "tên" = "Panda Express"
+
+eval_err_num:866
+medium pred: select count ( * ) from "đánh_giá" as t1 join "khoản tiền boa" as t2 on "t1."id đánh_giá" = "t2."id đánh_giá" where "t2."id người tiêu_dùng" = ( select "id người tiêu_dùng" from "người tiêu_dùng" where "tên" = "Michelle" )
+medium gold: select count ( distinct t1."văn_bản" ) from "người tiêu_dùng" as t2 join "khoản tiền boa" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" where t2."tên" = "Michelle"
+
+eval_err_num:867
+hard pred: select count ( * ) , "id doanh_nghiệp" from "khu_vực lân_cận" as t1 join "doanh_nghiệp" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t1."tên khu_phố lân_cận" = "Brighton_Heights" group by "t2."id doanh_nghiệp"
+hard gold: select sum ( t3."số_lượng" ) from "lượt đăng_ký" as t3 join "doanh_nghiệp" as t1 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join 
+"khu_vực lân_cận" as t2 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t2."tên khu_phố lân_cận" = "Brighton Heights"
+
+eval_err_num:868
+easy pred: select count ( "số_lượng đánh_giá" ) from "đánh_giá" where "tháng" = "3"
+easy gold: select count ( distinct "văn_bản" ) from "đánh_giá" where "tháng" = "March"
+
+eval_err_num:869
+medium pred: select count ( t2."văn_bản" ) , t1."tháng" from "khoản tiền boa" as t1 join "đánh_giá" as t2 on t1."id đánh_giá" = t2."id đánh_giá" group by t1."tháng"
+medium gold: select count ( distinct "văn_bản" ) , "tháng" from "khoản tiền boa" group by "tháng"
+
+eval_err_num:870
+medium pred: select count ( * ) from "khu_vực lân_cận" as t1 join "doanh_nghiệp" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên" = "Madison" and "t2."đánh_giá xếp_hạng" = 5
+medium gold: select count ( distinct t1."tên khu_phố lân_cận" ) from "khu_vực lân_cận" as t1 join "doanh_nghiệp" as t2 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" where t2."thành_phố" = "Madison" and t2."đánh_giá xếp_hạng" = 5
+
+eval_err_num:871
+hard pred: select t1."tên" , t1."địa_chỉ đầy_đủ" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "restaurant" and "t1."tiểu_bang" = "Texas"
+hard gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."tiểu_bang" = "Texas" and t2."tên loại_hình" = "Moroccan" and t3."tên loại_hình" = "restaurant"
+
+eval_err_num:872
+extra pred: select t1."tên" from "doanh_nghiệp" as t1 join "lượt đăng_ký" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" order by "t2."số_lượng" desc limit 1
+extra gold: select t1."tên" from "lượt đăng_ký" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" group by t1."tên" order by sum ( t2."số_lượng" ) desc limit 1
+
+eval_err_num:873
+extra pred: select "t1."tên khu_phố lân_cận" from "khu_vực lân_cận" as t1 join "doanh_nghiệp" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."thành_phố" = "Madison" group by "t1."tên khu_phố lân_cận" order by count ( * ) desc limit 1
+extra gold: select t1."tên khu_phố lân_cận" from "khu_vực lân_cận" as t1 join "doanh_nghiệp" as t2 on t1."id doanh_nghiệp" = t2."id doanh_nghiệp" where t2."thành_phố" = "Madison" group by t1."tên khu_phố lân_cận" order by count ( distinct t2."tên" ) desc limit 1
+
+eval_err_num:874
+hard pred: select t1."tên" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."đánh_giá 
+xếp_hạng" >= 3.5 and "t1."thành_phố" = "Dallas" order by "t2."đánh_giá xếp_hạng" desc limit 10
+hard gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Dallas" and t1."đánh_giá xếp_hạng" > 3.5 and t2."tên loại_hình" = "Mexican" and t3."tên loại_hình" = "restaurant"
+
+eval_err_num:875
+hard pred: select t1."tên" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as 
+t3 on "t1."id doanh_nghiệp" = "t3."id doanh_nghiệp" where "t2."tên loại_hình" = "Mexican" and "t3."đánh_giá xếp_hạng" >= 3.5 and "t1."thành_phố" = "Dallas"
+hard gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Dallas" and t1."đánh_giá xếp_hạng" > 3.5 and t2."tên loại_hình" = "Mexican" and t3."tên loại_hình" = "restaurant"
+
+eval_err_num:876
+hard pred: select t1."tên" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t1."thành_phố" = "Dallas" and "t1."tiểu_bang" = "Texas" and "t2."tên loại_hình" = "dịch_vụ đỗ xe"
+hard gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Dallas" and t1."tiểu_bang" = "Texas" and t2."tên loại_hình" = "Valet Service" and t3."tên loại_hình" = "restaurant"
+
+eval_err_num:877
+extra pred: select t1."tên" from "doanh_nghiệp" as t1 join "khu_vực lân_cận" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "loại_hình" as t3 on "t1."id doanh_nghiệp" = "t3."id doanh_nghiệp" where "t2."tên khu_phố lân_cận" = "Meadowood" and "t3."tên loại_hình" = "Italian" and "t1."tiểu_bang" = "Madison"
+extra gold: select t1."tên" from "loại_hình" as t3 join "doanh_nghiệp" as t1 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as 
+t4 on t4."id doanh_nghiệp" = t1."id doanh_nghiệp" join "khu_vực lân_cận" as t2 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Madison" and t3."tên loại_hình" = "Italian" and t4."tên loại_hình" = "restaurant" and t2."tên khu_phố lân_cận" = "Meadowood"
+
+eval_err_num:878
+medium pred: select t1."tên" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" join "đánh_giá" as t3 on "t2."id doanh_nghiệp" = "t3."id doanh_nghiệp" join "khu_vực lân_cận" as t4 on "t1."id doanh_nghiệp" = "t4."id doanh_nghiệp" where "t4."tên khu_phố lân_cận" = "Los_Angeles" and "t3."đánh_giá xếp_hạng" > 3 and "t3."số lượng đánh_giá" >= 30
+medium gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Los Angeles" and t1."đánh_giá xếp_hạng" > 3 and t1."số_lượng đánh_giá" > 30 and t2."tên loại_hình" = "Bars"
+
+eval_err_num:879
+hard pred: select count ( * ) from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tên loại_hình" = "nhà_hàng" and "t1."địa_chỉ đầy_đủ" like "%Edinburgh%"
+hard gold: select count ( distinct t1."tên" ) from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" join "loại_hình" as t3 on t3."id doanh_nghiệp" = t1."id doanh_nghiệp" where t1."thành_phố" = "Edinburgh" and t2."tên loại_hình" = "restaurant" and t3."tên loại_hình" = "Egyptian"
+
+medium pred: select t1."id người tiêu_dùng" from "đánh_giá" as t1 join "người tiêu_dùng" as t2 on t1."id người tiêu_dùng" = t2."id người tiêu_dùng" group by t1."id người tiêu_dùng" having avg ( t1."đánh_giá xếp_hạng" ) < 3
+medium gold: select t2."tên" from "người tiêu_dùng" as t2 join "đánh_giá" as t1 on t2."id người tiêu_dùng" = t1."id người tiêu_dùng" group by t2."tên" having avg ( t1."đánh_giá xếp_hạng" ) < 3
+
+eval_err_num:880
+extra pred: select t1."tên" from "doanh_nghiệp" as t1 join "đánh_giá" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" where "t2."tháng" = "4" group by "t1."id doanh_nghiệp" order by count ( * ) desc limit 1
+extra gold: select t1."tên" from "đánh_giá" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" where t2."tháng" = "April" group by t1."tên" order by count ( distinct t2."văn_bản" ) desc limit 1
+
+eval_err_num:881
+extra pred: select t1."tên" from "doanh_nghiệp" as t1 join "loại_hình" as t2 on "t1."id doanh_nghiệp" = "t2."id doanh_nghiệp" group by "t2."id doanh_nghiệp" order by count ( * ) desc limit 1
+extra gold: select t1."tên" from "loại_hình" as t2 join "doanh_nghiệp" as t1 on t2."id doanh_nghiệp" = t1."id doanh_nghiệp" group by t1."tên" order by count ( distinct t2."tên loại_hình" ) desc limit 1
