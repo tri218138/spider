@@ -1,7 +1,5 @@
 venv/
 __pycache__/
 benchmark/predictions/
-benchmark/db/
-pred2.sql
-ViText2SQL/data/syllable-level/test_gold2.sql
+benchmark/
 ViText2SQL/

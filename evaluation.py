@@ -732,7 +732,6 @@ def evaluate(gold, predict, db_dir, etype, kmaps):
     with open(predict, encoding="utf-8") as f:
         plist = [l.strip().split("\t") for l in f.readlines() if len(l.strip()) > 0]
     glist = [(add_double_flashes(sql_str), db_id) for sql_str, db_id in glist]
-    plist = [[add_double_flashes(sql_str[0])] for sql_str in plist]
 
     # plist = [("select max(Share),min(Share) from performance where Type != 'terminal'", "orchestra")]
     # glist = [("SELECT max(SHARE) ,  min(SHARE) FROM performance WHERE TYPE != 'Live final'", "orchestra")]
@@ -780,6 +779,7 @@ def evaluate(gold, predict, db_dir, etype, kmaps):
         scores["all"]["count"] += 1
 
         try:
+            p_str = add_double_flashes(p_str)
             p_sql = get_sql(schema, p_str)
         except:
             # If p_sql is not valid, then we will use an empty sql to evaluate with the correct sql
